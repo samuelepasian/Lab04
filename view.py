@@ -1,23 +1,19 @@
 import flet as ft
-from controller import SpellChecker
 
-
-class Interface(object):
-    def __init__(self, page: ft.Page, controller: SpellChecker):
-        super().__init__()
+class View(object):
+    def __init__(self, page: ft.Page):
         # Page
         self.page = page
         self.page.title = "TdP 2024 - Lab 04 - SpellChecker ++"
         self.page.horizontal_alignment = 'CENTER'
         self.page.theme_mode = ft.ThemeMode.LIGHT
         # Controller
-        self.__controller = controller
+        self.__controller = None
         # UI elements
         self.__title = None
         self.__theme_switch = None
 
         # define the UI elements and populate the page
-        self.add_content()
 
     def add_content(self):
         """Function that creates and adds the visual elements to the page. It also updates
@@ -31,15 +27,18 @@ class Interface(object):
         )
 
         # Add your stuff here
-        # ATTENTION. GUI elements may have callback functions that are called when certain events are triggered.
-        # Methods for such callbacks should be added here.
-        #
+
+        self.page.add([])
+
         self.page.update()
 
+    def update(self):
+        self.page.update()
+    def setController(self, controller):
+        self.__controller = controller
     def theme_changed(self, e):
         """Function that changes the color theme of the app, when the corresponding
-        switch is triggered -- used only for style."""
-
+        switch is triggered"""
         self.page.theme_mode = (
             ft.ThemeMode.DARK
             if self.page.theme_mode == ft.ThemeMode.LIGHT
@@ -48,5 +47,7 @@ class Interface(object):
         self.__theme_switch.label = (
             "Light theme" if self.page.theme_mode == ft.ThemeMode.LIGHT else "Dark theme"
         )
-
+        # self.__txt_container.bgcolor = (
+        #     ft.colors.GREY_900 if self.page.theme_mode == ft.ThemeMode.DARK else ft.colors.GREY_300
+        # )
         self.page.update()

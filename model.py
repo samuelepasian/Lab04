@@ -1,7 +1,6 @@
 import dictionary as d
 import richWord as rw
 
-
 class MultiDictionary:
 
     def __init__(self):
@@ -108,7 +107,7 @@ def dichotomicSearch(word, currentDic):
         currentW = currentDic[mean]
         if word == currentW:
             return True
-        elif word > currentW:
+        elif word > currentW:  # in python < applied to strings gives True if the first string is before in lexicographic order
             start = mean+1
         else:
             end = mean
