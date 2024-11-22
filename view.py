@@ -28,8 +28,24 @@ class View(object):
 
         # Add your stuff here
 
-        self.page.add([])
 
+        #row1
+        self._menu=ft.Dropdown(label="Select language", options=[ft.dropdown.Option("italian"),ft.dropdown.Option("english"),ft.dropdown.Option("spanish")], on_change=self.__controller.scegliLingua)
+        row1 = ft.Row([self._menu])
+        #row2
+        self._ricerca = ft.Dropdown( label="Search Modality",
+                                 options=[ft.dropdown.Option("Default"), ft.dropdown.Option("Linear"),
+                                          ft.dropdown.Option("Dichotomic")], on_change=self.__controller.scegliRicerca)
+
+        self._txtIn= ft.TextField(label="Add your sentence here")
+        self._bottone=ft.ElevatedButton(text="Spell Check", on_click=self.__controller.handleSpellCheck)
+        row2=ft.Row([self._ricerca,self._txtIn,self._bottone])
+
+        #row3
+        self._lvOut=ft.ListView()
+        row3=ft.Row([self._lvOut])
+
+        self.page.add(row1,row2,row3)
         self.page.update()
 
     def update(self):

@@ -1,12 +1,14 @@
 import time
 import flet as ft
 import model as md
+from view import View
 
 class SpellChecker:
 
-    def __init__(self, view):
+    def __init__(self, view:View):
         self._multiDic = md.MultiDictionary()
         self._view = view
+
 
     def handleSentence(self, txtIn, language, modality):
         txtIn = replaceChars(txtIn.lower())
@@ -44,6 +46,22 @@ class SpellChecker:
             case _:
                 return None
 
+    def handleSpellCheck(self,e):
+        self._view._lvOut.controls.clear()
+        self._view.update()
+        errori=""
+        tempo=0
+
+        if self._view._menu.value=="":
+            self._view._lvOut.controls.append(ft.Text("Non hai inserito la lingua"))
+        elif self._view._ricerca.value == "":
+            self._view._lvOut.controls.append(ft.Text("Non hai inserito modalità di ricerca"))
+        else:
+
+            errori,tempo=self.handleSentence(self._view._txtIn.value,self._view._menu.value,self._view._ricerca.value)
+            self._view._lvOut.controls.append(ft.Text(errori))
+            self._view._lvOut.controls.append(ft.Text(tempo))
+            self._view.update()
 
     def printMenu(self):
         print("______________________________\n" +
@@ -56,9 +74,36 @@ class SpellChecker:
               "4. Exit\n" +
               "______________________________\n")
 
+    def scegliLingua(self,e):
+        lista=["italiano", "inglese", "spagnolo"]
+        try:
+            self._view._menu.value in lista
+        except ValueError:
+            self._view._lvOut.controls.append(ft.Text("Errore nella selezione della lingua"))
+            self._view.update()
+            return
+        self._view._lvOut.controls.append(ft.Text("Lingua selezionata correttamente"))
+        self._view.update()
+
+    def scegliRicerca(self, e):
+        lista = ["Default", "Lineare", "Dicotomica"]
+        try:
+            self._view._menu.value in lista
+        except ValueError:
+            self._view._lvOut.controls.append(ft.Text("Errore nella selezione della ricerca"))
+            self._view.update()
+            return
+        self._view._lvOut.controls.append(ft.Text("Ricerca selezionata correttamente"))
+        self._view.update()
+
+
+
 
 def replaceChars(text):
     chars = "\\`*_{}[]()>#+-.!$?%^;,=_~"
     for c in chars:
         text = text.replace(c, "")
     return text
+
+
+    
